@@ -1,32 +1,37 @@
-import express from 'express';
-import dotenv from 'dotenv';
+import dotenv from 'dotenv'
+import express, { Request, Response } from 'express';
+const app = express();
+import cors from "cors";
+import productListRouter from "./routes/products.route"
+import authRouter from "./routes/login.route"
+
+
+
 
 dotenv.config();
+const PORT = process.env.PORT || 3500;
 
-const app = express();
-const PORT = process.env.PORT || 3000;
 
-// Shopify OAuth Authorization
-app.get('/auth', (req, res) => {
-    const shop = `${process.env.HOST}`; // Replace with the shop domain
-    const redirectUri = `${process.env.HOST}/auth/callback`; // Your callback URL
-    const apiKey = process.env.SHOPIFY_API_KEY!;
-    const scopes = 'read_products'; // Scopes you need
-    const state = 'random_string'; // Generate a unique random string to prevent CSRF
+app.use(express.json());
+app.use(cors());
 
-    // Build the Shopify OAuth URL
-    const authUrl = `https://${shop}/admin/oauth/authorize?client_id=${apiKey}&scope=${scopes}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}`;
-
-    // Redirect the user to the Shopify authorization page
-    res.redirect(authUrl);
+app.get("/health-check", async (_req: Request, res: Response): Promise<void> => {
+    res.status(200).send("Server is up and running.");
 });
 
-// Basic route to check if server is running
-app.get('/', (_req, res) => {
-    res.send('Hello, TypeScript + Express!');
+app.use('/api', productListRouter);
+app.use('/api', authRouter);
+
+
+process.on('uncaughtException', (error) => {
+    console.log("Error: ", error);
 });
 
-// Start server
+process.on('unhandledRejection', (error) => {
+    console.log("Error: ", error);
+});
+
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`✅ Server is running on port ${PORT}`);
 });
+
