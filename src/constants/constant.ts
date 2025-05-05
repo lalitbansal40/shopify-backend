@@ -64,5 +64,7 @@ export default {
     SHOPIFY_DOMAIN: String(process.env.SHOPIFY_DOMAIN),
     STOREFRONT_API_VERSION: String(process.env.STOREFRONT_API_VERSION),
     STOREFRONT_TOKEN: String(process.env.STOREFRONT_TOKEN),
-    JWT_SECRET: String(process.env.JWT_SECRET)
+    JWT_SECRET: String(process.env.JWT_SECRET),
+    ADMIN_API_ACCESS_TOKEN: String(process.env.ADMIN_API_ACCESS_TOKEN),
+    FORGOT_PASSWORD_LINK: String(process.env.FORGOT_PASSWORD_LINK),
 };

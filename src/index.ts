@@ -3,13 +3,13 @@ import express, { Request, Response } from 'express';
 const app = express();
 import cors from "cors";
 import productListRouter from "./routes/products.route"
-import authRouter from "./routes/login.route"
+import authRouter from "./routes/auth.route"
 
 
 
 
 dotenv.config();
-const PORT = process.env.PORT || 3500;
+const PORT = process.env.PORT || 3000;
 
 
 app.use(express.json());
